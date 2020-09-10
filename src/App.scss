@@ -1,0 +1,116 @@
+$background: #434343;
+$panel_body: #7d7d7f;
+$button: #63636e;
+$button_text: #f3f3f3;
+$screen_text: #434343;
+$screen_light_off: #47b2b2;
+$screen_light_on: #7fffff;
+
+$keypad_gap: 20px;
+$keypad_y_padding: 40px;
+$button_side: 70px;
+
+@mixin multiple($properties , $value){
+    @each $property in $properties{
+        #{$property}: $value;
+    }
+}
+
+@font-face {
+    font-family: 'RobotoMono Normal';
+    font-style: normal;
+    src: url('/fonts/RobotoMono-Regular.ttf');
+
+}
+
+@font-face {
+    font-family: 'RobotoMono Medium';
+    font-style: normal;
+    src: url('/fonts/RobotoMono-Medium.ttf');
+
+}
+
+body {
+    background-color: $background;
+}
+
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: $panel_body;
+    padding: 25px $keypad_y_padding;
+    box-shadow: 5px 4px 15px #000;
+    margin: 10% auto 0 auto;
+    border: 1px solid #000 {
+        radius: 10px
+    };
+    
+    p {
+        color: $screen_text;
+        font-family: 'RobotoMono Medium';
+        position: absolute;
+        bottom: 3px;
+        right: 10px;
+        margin: 0;
+        font-size: 10pt;
+    }
+}
+
+.number_keypad {
+    display: grid;
+    grid-template-columns: $button_side $button_side $button_side;
+    @include multiple(row-gap column-gap, $keypad_gap);
+     
+    &__key {
+        cursor: pointer;
+        background-color: $button;
+        color: $button_text;
+        text-align: center;
+        box-shadow: 1px 1px 10px $background;
+        font-family: 'RobotoMono Normal';
+        font-size: 40pt;
+        border: 1px solid $background {
+            radius: 5px
+        };
+  
+    }
+}
+
+.backlit_screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: $screen_light_off;
+    width: 80%;
+    height: 100px;
+    margin-bottom: 25px;
+    padding: 10px;
+    font-family: 'RobotoMono Medium';
+    color: $screen_text;
+    overflow: hidden;
+    border: 1px solid $background {
+        radius: 5px;
+    }
+    
+    &__is_locked {
+        font-size: 16pt;   
+    }
+    &__status_msg {
+        font-size: 30pt;   
+        direction: rtl;
+    }
+    &--light_on {
+        background-color: $screen_light_on;
+    }
+}
+
+@media (min-width: 576px) {
+
+    .panel {
+        width: 3*$button_side+2*$keypad_gap+2*$keypad_y_padding;
+    }
+ 
+  }

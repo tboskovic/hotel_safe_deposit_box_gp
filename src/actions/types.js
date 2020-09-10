@@ -1,0 +1,2 @@
+export const CODE_CORRECT = "CODE_CORRECT";
+export const CODE_INCORRECT = "CODE_INCORRECT";
