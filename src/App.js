@@ -9,6 +9,7 @@ import { checkSecretMasterCode } from './actions/ForgetCodeAction';
 import './App.scss';
 
 function App(handler, element = window) {
+
   const [statusMsg, setStatusMsg] = useState('Ready');
   const [passCode, setPassCode] = useState('');
   const [isLocked, setIsLocked] = useState(false);
@@ -24,7 +25,7 @@ function App(handler, element = window) {
   
   const dispatch = useDispatch();
   const isCodeCorrect = useSelector(state => state.forgetCode.isCodeCorrect);
-
+  
   useEffect(() => {
     const localStorageCode = localStorage.getItem('code');
     if(!!localStorageCode) {
@@ -55,13 +56,14 @@ function App(handler, element = window) {
     
     clearTimeout(msgInterval);
     clearTimeout(lightInterval);
+    clearTimeout(delayInterval);
 
     setLightOn(true);
     setLightInterval(
       setTimeout(() => { 
         setLightOn(false);
         setPassCode('');
-        setStatusMsg('Ready') }, 5000));
+      }, 5000));
 
     if(!isLocked) {
       
@@ -69,33 +71,31 @@ function App(handler, element = window) {
         if(passCode.length < 6 ) {
     
           setPassCode(passCode + character);
-          setDelayInterval(setTimeout(() => setUnlock(true), 1200));
         
         } else {
         
           setPassCode('');
-          setStatusMsg('Error1');
+          setStatusMsg('Error');
     
       }
       } else {
 
           setPassCode('');
-          setStatusMsg('Error4');
-          // setDelayInterval(setTimeout(() => setUnlock(true), 1200));
+          setStatusMsg('Error');
     
         }
     } else {
       if(!allowSecretMasterCode) {
-        
+
         setPassCode(passCode + character);
         setDelayInterval(setTimeout(() => setUnlock(true), 1200));
 
       } else {
+
         setSecretMasterCode(secretMasterCode + character);
         setDelayInterval(setTimeout(() => setUnlockWithSMC(true), 1200));
       
       }
-      clearTimeout(delayInterval);
     
     }
   };
@@ -108,12 +108,13 @@ function App(handler, element = window) {
 
         const hashedCode = await bcrypt.hash(passCode, 12);
         localStorage.setItem('code', hashedCode);
+        sethashedCode(hashedCode);
         setStatusMsg('Locking');
         setIsLocked(true);
 
       } else {
 
-        setStatusMsg('Error2');
+        setStatusMsg('Error');
 
       } 
 
@@ -124,33 +125,38 @@ function App(handler, element = window) {
       if(!allowSecretMasterCode) {
 
         setPassCode(passCode + 'L');
-      
+        setDelayInterval(setTimeout(() => setUnlock(true), 1200));
+        
       } else {
-
+        
         setSecretMasterCode(secretMasterCode + 'L');
+        setDelayInterval(setTimeout(() => setUnlockWithSMC(true), 1200));
 
       }
       clearTimeout(delayInterval);
-      setDelayInterval(setTimeout(() => setUnlock(true), 1200));
 
     }
   };
   const unlockTheDoor = async () => {
 
       if(passCode === '000000') {
+
+        setPassCode('');
         setallowSecretMasterCode(true);
         setStatusMsg('Service');
-      } else {
       
+      } else {
         if(!!(await bcrypt.compare(passCode, hashedCode))) {
 
           setStatusMsg('Unlocking');
           setIsLocked(false);
+          sethashedCode('');
           localStorage.removeItem('code');
+
 
       } else  {
 
-          setStatusMsg('Error3') ;
+          setStatusMsg('Error') ;
 
       }
 
@@ -164,9 +170,21 @@ function App(handler, element = window) {
   const unlockWithSecretMasterCode = async () => {
     if(secretMasterCode.length > 0) {
       await dispatch(checkSecretMasterCode(secretMasterCode));
+      setSecretMasterCode('');
+      if(isCodeCorrect) {
+        setStatusMsg('Unlocking');
+        sethashedCode('');
+        setIsLocked(false);
+        localStorage.removeItem('code');
+        
+      } else {
+
+        setStatusMsg('Error');
+        
+      }
+      setUnlockWithSMC(false);
     } 
 };
-
   return (
     <div className="panel">
       <BacklitScreen
