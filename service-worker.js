@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/hotel_safe_deposit_box_gp/precache-manifest.d703fcbe7eb31365bc9b7282dd483ceb.js"
+  "/hotel_safe_deposit_box_gp/precache-manifest.d1be509156b961fbe493bea43102687f.js"
 );
 
 self.addEventListener('message', (event) => {

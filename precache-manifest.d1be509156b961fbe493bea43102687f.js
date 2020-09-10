@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a8a1d94530ba47244e9f90036020ab02",
+    "revision": "b805ae5a8ecb56bfd8f333516fa55b13",
     "url": "/hotel_safe_deposit_box_gp/index.html"
   },
   {
-    "revision": "1e23ed72ae08eb583735",
+    "revision": "00ffb5b221877f38992f",
     "url": "/hotel_safe_deposit_box_gp/static/css/main.482d8b82.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hotel_safe_deposit_box_gp/static/js/2.717790c8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1e23ed72ae08eb583735",
-    "url": "/hotel_safe_deposit_box_gp/static/js/main.f4ff1700.chunk.js"
+    "revision": "00ffb5b221877f38992f",
+    "url": "/hotel_safe_deposit_box_gp/static/js/main.64c0bcde.chunk.js"
   },
   {
     "revision": "d818e2e4c6470dcc227d",
